@@ -1,0 +1,37 @@
+---
+- block:
+
+    - name: install boto
+      become: yes
+      package:
+        name: "{{ aws_route53_boto_pkg }}"
+        state: present
+      tags:
+        - aws-route53-install-deps
+
+    - name: setup dns zone
+      route53_zone:
+        zone: gibert.ca
+        aws_access_key: "{{ aws_route53_access_key_id }}"
+        aws_secret_key: "{{ aws_route53_secret_access_key }}"
+        state: present
+      tags:
+        - aws-route53-setup-zone
+
+    - name: setup records
+      route53:
+        command: create
+        zone: gibert.ca
+        type: "{{ item.type }}"
+        aws_access_key: "{{ aws_route53_access_key_id }}"
+        aws_secret_key: "{{ aws_route53_secret_access_key }}"
+        ttl: "{{ aws_route53_dns_ttl }}"
+        overwrite: true
+        record: "{{ item.dns }}"
+        value: "{{ item.val }}"
+      with_items: "{{ aws_route53_dns_domain_defs }}"
+      tags:
+        - aws-route53-setup-records
+
+  tags:
+    - aws-route53

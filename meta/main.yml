@@ -1,0 +1,21 @@
+galaxy_info:
+  author: Richard Gibert
+  description: Setup AWS Route 53 domains
+  license: GPLv3
+  min_ansible_version: 1.2
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - artful
+        - bionic
+        - trusty
+        - xenial
+  galaxy_tags:
+    - aws-route53
+    - aws
+    - route53
+
+dependencies: []
