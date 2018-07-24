@@ -3,6 +3,7 @@
 
     - name: install boto
       become: yes
+      become_user: root
       package:
         name: "{{ aws_route53_boto_pkg }}"
         state: present
